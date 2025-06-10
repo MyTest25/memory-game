@@ -31,10 +31,22 @@
   padding: 8px;
 }
 
-.popup {
+#chancesLeft {
+  font-size: 20px;
+  text-align: center;
+  margin: 10px 0;
+  color: #333;
+}
+
+.highlight {
   border: 3px solid green;
-  padding: 20px;
-  background: #f0fff0;
-  display: inline-block;
   border-radius: 10px;
+  box-shadow: 0 0 10px green;
+}
+
+#refreshNotice {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+  color: gray;
 }
