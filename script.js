@@ -9,15 +9,12 @@ let cards = [...symbols, ...symbols];
 cards = shuffle(cards);
 
 const gameBoard = document.getElementById('gameBoard');
-const statusDisplay = document.getElementById('status');
+const statusText = document.getElementById('statusText');
 let flippedCards = [];
-let matchedSymbols = [];
-let lockBoard = false;
+let matched = false;
 let attempts = 0;
 const maxAttempts = 3;
-let gameEnded = false;
-
-statusDisplay.textContent = `Chances Left: ${maxAttempts - attempts}`;
+let lockBoard = false;
 
 // Create card elements
 cards.forEach(symbol => {
@@ -35,16 +32,13 @@ cards.forEach(symbol => {
   gameBoard.appendChild(card);
 });
 
-// Shuffle function
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
 function flipCard(e) {
-  if (gameEnded) return;
-
   const card = e.currentTarget;
-  if (lockBoard || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  if (lockBoard || card.classList.contains('flipped') || card.classList.contains('matched') || matched) return;
 
   card.classList.add('flipped');
   card.querySelector('img').style.display = 'block';
@@ -60,47 +54,47 @@ function checkForMatch() {
   const [card1, card2] = flippedCards;
 
   if (card1.dataset.symbol === card2.dataset.symbol) {
+    matched = true;
     card1.classList.add('matched');
     card2.classList.add('matched');
-    matchedSymbols.push(card1.dataset.symbol);
-    showMatchedPopup(card1.dataset.symbol);
-    endGame();
+
+    highlightMatch(card1.dataset.symbol);
+    alert('🎉 You found a matching pair!');
+    return;
   } else {
     card1.classList.remove('flipped');
     card2.classList.remove('flipped');
     card1.querySelector('img').style.display = 'none';
     card2.querySelector('img').style.display = 'none';
-
-    attempts++;
-    statusDisplay.textContent = `Chances Left: ${maxAttempts - attempts}`;
-
-    if (attempts >= maxAttempts) {
-      alert('❌ Game Over! No matches found.');
-      endGame();
-    }
   }
 
   flippedCards = [];
   lockBoard = false;
+  attempts++;
+  updateStatus();
+
+  if (attempts >= maxAttempts && !matched) {
+    alert('❌ Game Over! You used all 3 attempts.');
+    lockBoard = true;
+  }
 }
 
-function showMatchedPopup(symbol) {
-  const overlay = document.createElement('div');
-  overlay.className = 'popup';
+function updateStatus() {
+  statusText.textContent = `Attempts used: ${attempts} / ${maxAttempts}`;
+}
 
-  const title = document.createElement('h2');
-  title.textContent = '🎉 You matched this product!';
-  overlay.appendChild(title);
+function highlightMatch(symbol) {
+  const resultArea = document.createElement('div');
+  resultArea.innerHTML = '<h2 style="color:green;">🎯 Matching Product:</h2>';
 
   const img = document.createElement('img');
   img.src = symbol;
   img.style.width = '150px';
-  img.style.margin = '10px';
-  overlay.appendChild(img);
+  img.style.border = '4px solid gold';
+  img.style.padding = '10px';
+  img.style.borderRadius = '12px';
+  resultArea.appendChild(img);
 
-  document.body.appendChild(overlay);
-}
-
-function endGame() {
-  gameEnded = true;
+  document.body.appendChild(resultArea);
+  lockBoard = true;
 }
