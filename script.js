@@ -5,19 +5,19 @@ const symbols = [
   'https://i.postimg.cc/xTLSrBcd/Salted-Sunflower-Seeds-110g.png'
 ];
 
-let cards = [...symbols, ...symbols]; // duplicate
+let cards = [...symbols, ...symbols];
 cards = shuffle(cards);
 
 const gameBoard = document.getElementById('gameBoard');
-const counter = document.getElementById('chancesLeft');
-const refreshNotice = document.getElementById('refreshNotice');
-
+const statusDisplay = document.getElementById('status');
 let flippedCards = [];
 let matchedSymbols = [];
 let lockBoard = false;
 let attempts = 0;
-let matches = 0;
 const maxAttempts = 3;
+let gameEnded = false;
+
+statusDisplay.textContent = `Chances Left: ${maxAttempts - attempts}`;
 
 // Create card elements
 cards.forEach(symbol => {
@@ -41,6 +41,8 @@ function shuffle(array) {
 }
 
 function flipCard(e) {
+  if (gameEnded) return;
+
   const card = e.currentTarget;
   if (lockBoard || card.classList.contains('flipped') || card.classList.contains('matched')) return;
 
@@ -58,42 +60,47 @@ function checkForMatch() {
   const [card1, card2] = flippedCards;
 
   if (card1.dataset.symbol === card2.dataset.symbol) {
-    card1.classList.add('matched', 'highlight');
-    card2.classList.add('matched', 'highlight');
+    card1.classList.add('matched');
+    card2.classList.add('matched');
     matchedSymbols.push(card1.dataset.symbol);
-    matches++;
+    showMatchedPopup(card1.dataset.symbol);
+    endGame();
   } else {
     card1.classList.remove('flipped');
     card2.classList.remove('flipped');
     card1.querySelector('img').style.display = 'none';
     card2.querySelector('img').style.display = 'none';
+
+    attempts++;
+    statusDisplay.textContent = `Chances Left: ${maxAttempts - attempts}`;
+
+    if (attempts >= maxAttempts) {
+      alert('❌ Game Over! No matches found.');
+      endGame();
+    }
   }
 
-  attempts++;
-  counter.textContent = `Chances Left: ${maxAttempts - attempts}`;
   flippedCards = [];
   lockBoard = false;
-
-  if (matches === maxAttempts) {
-    showMatchedItems();
-  } else if (attempts === maxAttempts) {
-    alert('❌ Game Over! Try refreshing to play again.');
-  }
 }
 
-function showMatchedItems() {
-  const resultArea = document.createElement('div');
-  resultArea.innerHTML = `<h2>🎉 You matched 3 pairs!</h2><p>Matched products:</p>`;
-  matchedSymbols.forEach(symbol => {
-    const img = document.createElement('img');
-    img.src = symbol;
-    img.style.width = '100px';
-    img.style.margin = '10px';
-    img.classList.add('highlight');
-    resultArea.appendChild(img);
-  });
-  document.body.appendChild(resultArea);
+function showMatchedPopup(symbol) {
+  const overlay = document.createElement('div');
+  overlay.className = 'popup';
 
-  // Prevent further clicks
-  document.querySelectorAll('.card').forEach(card => card.removeEventListener('click', flipCard));
+  const title = document.createElement('h2');
+  title.textContent = '🎉 You matched this product!';
+  overlay.appendChild(title);
+
+  const img = document.createElement('img');
+  img.src = symbol;
+  img.style.width = '150px';
+  img.style.margin = '10px';
+  overlay.appendChild(img);
+
+  document.body.appendChild(overlay);
+}
+
+function endGame() {
+  gameEnded = true;
 }
