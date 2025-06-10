@@ -2,20 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Memory Pair Game</title>
+  <title>Memory Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1 style="text-align:center;">🧠 Product Pair Game</h1>
-  <div style="text-align:center;">
-    <p>Attempts: <span id="attemptCount">0</span> / 3</p>
-  </div>
+  <div id="chancesLeft">Chances Left: 3</div>
   <div id="gameBoard"></div>
-  <div style="text-align:center; margin-top:20px;">
-    <button onclick="resetGame()">🔄 Replay</button>
-  </div>
-  <div id="resultContainer" style="text-align:center; margin-top:30px;"></div>
-
+  <div id="refreshNotice">Game refreshed!</div>
   <script src="script.js"></script>
 </body>
 </html>
