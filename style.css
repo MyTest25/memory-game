@@ -1,3 +1,15 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('https://i.postimg.cc/7YZz7wGh/abstract-luxury-gradient-blue-background-1258-47415.avif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: #fff;
+}
+
 #gameBoard {
   display: grid;
   grid-template-columns: repeat(4, 120px);
@@ -9,7 +21,7 @@
 .card {
   width: 120px;
   height: 150px;
-  background-color: #eee;
+  background-color: #fff;
   border: 2px solid #ccc;
   border-radius: 8px;
   display: flex;
@@ -29,4 +41,13 @@
 .card.flipped,
 .card.matched {
   background-color: #fff;
+}
+
+#statusText {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #fff;
 }
