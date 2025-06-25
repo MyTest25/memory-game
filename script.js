@@ -3,6 +3,7 @@ const symbols = [
   'https://i.postimg.cc/NG9cDKtm/Honey-Roasted-Cashew-Nuts-Mixed-Macadamias-140g.png',
   'https://i.postimg.cc/XNR0znNh/Honey-Sunflower-Seeds-110g.png',
   'https://i.postimg.cc/xTLSrBcd/Salted-Sunflower-Seeds-110g.png'
+  'https://i.postimg.cc/WbQX7XBQ/Yogi-Blueberry-Cream-Stick-32g-4.png'
 ];
 
 let cards = [...symbols, ...symbols];
