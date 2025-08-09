@@ -1,8 +1,11 @@
 const symbols = [
-  'https://i.postimg.cc/RCdRjvjQ/Almond-With-Dried-Cranberry-140g.png',
-  'https://i.postimg.cc/NG9cDKtm/Honey-Roasted-Cashew-Nuts-Mixed-Macadamias-140g.png',
-  'https://i.postimg.cc/xTLSrBcd/Salted-Sunflower-Seeds-110g.png',
-  'https://i.postimg.cc/WbQX7XBQ/Yogi-Blueberry-Cream-Stick-32g-4.png'
+  'https://i.postimg.cc/2ypJ1WSR/Yogi-Blueberry-Cream-Stick-32g-4.png',
+  'https://i.postimg.cc/fWXp688w/Yogi-Cookies-Cream-Stick-36g.png',
+  'https://i.postimg.cc/MpRnR2DC/Amore-Oat-Cookies-Blackcurrant-Chocolate-Chips-162g-1.png',
+  'https://i.postimg.cc/dtg7Lt8R/Amore-Oat-Cookies-Blackcurrant-162g-1.png',
+  'https://i.postimg.cc/KY2RDqpR/Amore-Oat-Cookies-Chocolate-Chips-162g-1.png',
+  'https://i.postimg.cc/W3c6rwgn/NOI-Cassava-Chips-Salted-85g.png',
+  'https://i.postimg.cc/bvt9sBDr/NOI-Cassava-Chips-Seaweed-Wasabi-85g.png',
 ];
 
 let cards = [...symbols, ...symbols];
@@ -98,3 +101,4 @@ function highlightMatch(symbol) {
   document.body.appendChild(resultArea);
   lockBoard = true;
 }
+
