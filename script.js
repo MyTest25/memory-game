@@ -1,104 +1,57 @@
-const symbols = [
-  'https://i.postimg.cc/2ypJ1WSR/Yogi-Blueberry-Cream-Stick-32g-4.png',
-  'https://i.postimg.cc/fWXp688w/Yogi-Cookies-Cream-Stick-36g.png',
-  'https://i.postimg.cc/MpRnR2DC/Amore-Oat-Cookies-Blackcurrant-Chocolate-Chips-162g-1.png',
-  'https://i.postimg.cc/dtg7Lt8R/Amore-Oat-Cookies-Blackcurrant-162g-1.png',
-  'https://i.postimg.cc/KY2RDqpR/Amore-Oat-Cookies-Chocolate-Chips-162g-1.png',
-  'https://i.postimg.cc/W3c6rwgn/NOI-Cassava-Chips-Salted-85g.png',
-  'https://i.postimg.cc/bvt9sBDr/NOI-Cassava-Chips-Seaweed-Wasabi-85g.png',
-];
+ const imageLinks = [
+        "https://i.postimg.cc/2ypJ1WSR/Yogi-Blueberry-Cream-Stick-32g-4.png",
+        "https://i.postimg.cc/fWXp688w/Yogi-Cookies-Cream-Stick-36g.png",
+        "https://i.postimg.cc/MpRnR2DC/Amore-Oat-Cookies-Black.png",
+        "https://i.postimg.cc/N0f4S9zN/Yogi-Strawberry-Cream-Stick-32g.png",
+        "https://i.postimg.cc/TY8FmgGW/Amore-Oat-Cookies-White.png",
+        "https://i.postimg.cc/ZnVY5Q2d/Yogi-Chocolate-Cream-Stick-36g.png",
+        "https://i.postimg.cc/4yC2rYjS/Amore-Oat-Cookies-Red.png"
+    ];
 
-let cards = [...symbols, ...symbols];
-cards = shuffle(cards);
+    // Select 6 random images from list
+    let selectedImages = imageLinks
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 6);
 
-const gameBoard = document.getElementById('gameBoard');
-const statusText = document.getElementById('statusText');
-let flippedCards = [];
-let matched = false;
-let attempts = 0;
-const maxAttempts = 3;
-let lockBoard = false;
+    let gameImages = [...selectedImages, ...selectedImages].sort(() => 0.5 - Math.random());
 
-// Create card elements
-cards.forEach(symbol => {
-  const card = document.createElement('div');
-  card.classList.add('card');
-  card.dataset.symbol = symbol;
+    const gameContainer = document.getElementById("game");
 
-  const img = document.createElement('img');
-  img.src = symbol;
-  img.classList.add('card-img');
-  img.style.display = 'none';
+    let firstCard = null;
+    let lockBoard = false;
 
-  card.appendChild(img);
-  card.addEventListener('click', flipCard);
-  gameBoard.appendChild(card);
-});
+    function createCard(image) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <img class="front" src="https://via.placeholder.com/100/cccccc/000000?text=?" alt="Front">
+            <img class="back" src="${image}" alt="Back">
+        `;
+        card.addEventListener("click", () => flipCard(card, image));
+        gameContainer.appendChild(card);
+    }
 
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
+    function flipCard(card, image) {
+        if (lockBoard || card.classList.contains("flip")) return;
 
-function flipCard(e) {
-  const card = e.currentTarget;
-  if (lockBoard || card.classList.contains('flipped') || card.classList.contains('matched') || matched) return;
+        card.classList.add("flip");
 
-  card.classList.add('flipped');
-  card.querySelector('img').style.display = 'block';
-  flippedCards.push(card);
+        if (!firstCard) {
+            firstCard = { card, image };
+            return;
+        }
 
-  if (flippedCards.length === 2) {
-    lockBoard = true;
-    setTimeout(checkForMatch, 800);
-  }
-}
+        if (firstCard.image === image) {
+            firstCard = null;
+        } else {
+            lockBoard = true;
+            setTimeout(() => {
+                card.classList.remove("flip");
+                firstCard.card.classList.remove("flip");
+                firstCard = null;
+                lockBoard = false;
+            }, 1000);
+        }
+    }
 
-function checkForMatch() {
-  const [card1, card2] = flippedCards;
-
-  if (card1.dataset.symbol === card2.dataset.symbol) {
-    matched = true;
-    card1.classList.add('matched');
-    card2.classList.add('matched');
-
-    highlightMatch(card1.dataset.symbol);
-    alert('🎉 You found a matching pair!');
-    return;
-  } else {
-    card1.classList.remove('flipped');
-    card2.classList.remove('flipped');
-    card1.querySelector('img').style.display = 'none';
-    card2.querySelector('img').style.display = 'none';
-  }
-
-  flippedCards = [];
-  lockBoard = false;
-  attempts++;
-  updateStatus();
-
-  if (attempts >= maxAttempts && !matched) {
-    alert('❌ Game Over! You used all 3 attempts.');
-    lockBoard = true;
-  }
-}
-
-function updateStatus() {
-  statusText.textContent = `Attempts used: ${attempts} / ${maxAttempts}`;
-}
-
-function highlightMatch(symbol) {
-  const resultArea = document.createElement('div');
-  resultArea.innerHTML = '<h2 style="color:green;">🎯 Matching Product:</h2>';
-
-  const img = document.createElement('img');
-  img.src = symbol;
-  img.style.width = '150px';
-  img.style.border = '4px solid gold';
-  img.style.padding = '10px';
-  img.style.borderRadius = '12px';
-  resultArea.appendChild(img);
-
-  document.body.appendChild(resultArea);
-  lockBoard = true;
-}
-
+    gameImages.forEach(img => createCard(img));
