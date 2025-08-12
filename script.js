@@ -1,22 +1,17 @@
- const imageLinks = [
+  const imageLinks = [
         "https://i.postimg.cc/2ypJ1WSR/Yogi-Blueberry-Cream-Stick-32g-4.png",
         "https://i.postimg.cc/fWXp688w/Yogi-Cookies-Cream-Stick-36g.png",
         "https://i.postimg.cc/MpRnR2DC/Amore-Oat-Cookies-Black.png",
         "https://i.postimg.cc/N0f4S9zN/Yogi-Strawberry-Cream-Stick-32g.png",
         "https://i.postimg.cc/TY8FmgGW/Amore-Oat-Cookies-White.png",
-        "https://i.postimg.cc/ZnVY5Q2d/Yogi-Chocolate-Cream-Stick-36g.png",
-        "https://i.postimg.cc/4yC2rYjS/Amore-Oat-Cookies-Red.png"
+        "https://i.postimg.cc/ZnVY5Q2d/Yogi-Chocolate-Cream-Stick-36g.png"
     ];
 
-    // Select 6 random images from list
-    let selectedImages = imageLinks
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 6);
-
+    // pick 6 random and duplicate
+    let selectedImages = imageLinks.sort(() => 0.5 - Math.random()).slice(0, 6);
     let gameImages = [...selectedImages, ...selectedImages].sort(() => 0.5 - Math.random());
 
     const gameContainer = document.getElementById("game");
-
     let firstCard = null;
     let lockBoard = false;
 
@@ -33,7 +28,6 @@
 
     function flipCard(card, image) {
         if (lockBoard || card.classList.contains("flip")) return;
-
         card.classList.add("flip");
 
         if (!firstCard) {
@@ -55,3 +49,4 @@
     }
 
     gameImages.forEach(img => createCard(img));
+</script>
