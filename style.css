@@ -1,75 +1,72 @@
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  background-image: url('https://i.postimg.cc/7YZz7wGh/abstract-luxury-gradient-blue-background-1258-47415.avif');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  min-height: 100vh;
-  color: #fff;
-  position: relative;
-}
+ body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url('https://i.postimg.cc/7YZz7wGh/abstract-luxury-gradient-blue-background-1258-47415.avif') no-repeat center center/cover;
+        position: relative;
+    }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* dark overlay */
-  z-index: -1;
-}
+    /* Dark overlay on background */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+    }
 
-#gameContainer {
-  background-color: rgba(255, 255, 255, 0.1); /* semi-transparent container */
-  padding: 30px;
-  border-radius: 16px;
-  max-width: 600px;
-  margin: auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
+    h1 {
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
 
-#gameBoard {
-  display: grid;
-  grid-template-columns: repeat(4, 120px);
-  gap: 10px;
-  justify-content: center;
-  padding: 20px;
-}
+    .game-container {
+        display: grid;
+        grid-template-columns: repeat(4, 100px);
+        gap: 15px;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        margin: auto;
+        max-width: 500px;
+    }
 
-.card {
-  width: 120px;
-  height: 150px;
-  background-color: #fff;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* shadow */
-}
+    .card {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        border-radius: 10px;
+    }
 
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 8px;
-}
+    .card.flip {
+        transform: rotateY(180deg);
+    }
 
-.card.flipped,
-.card.matched {
-  background-color: #fff;
-}
+    .card img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0; left: 0;
+    }
 
-#statusText {
-  font-size: 20px;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: #fff;
-}
+    .card .front {
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    .card .back {
+        transform: rotateY(180deg);
+    }
